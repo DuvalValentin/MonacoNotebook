@@ -1,6 +1,6 @@
 import CelluleDTO from "./CelluleDTO.js";
 import ContextMenuManager from "./ContextMenuManager.js";
-import MonacoManager from "./monaco.js";
+import MonacoManager from "./MonacoManager.js";
 import NotebookInfosDTO from "./NotebookInfosDTO.js";
 
 //Si on transforme le tout en classe ici ça sera les attributs
@@ -75,7 +75,7 @@ export function displayCell(cellDTO:CelluleDTO,previousCellDom: JQuery<HTMLEleme
 
 function addCellDom(previousCellDom: JQuery<HTMLElement>):JQuery<HTMLElement>
 {
-    var cellDom: JQuery<HTMLElement> = $("<li class='cell'></li>");
+    var cellDom: JQuery<HTMLElement> = $("<li class='cell' draggable='true' ></li>");
     if(previousCellDom.length!=0)
     {
         cellDom.insertAfter(previousCellDom);

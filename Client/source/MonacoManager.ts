@@ -1,4 +1,5 @@
-import * as monaco from 'monaco-editor';
+//import * as monaco from 'monaco-editor';
+import * as monacoclient from "monaco-languageclient";
 import CelluleDTO from "./CelluleDTO.js";
 export default class MonacoManager {
     private language: string;
@@ -6,6 +7,7 @@ export default class MonacoManager {
     public constructor(language: string) {
         this.language = language;
         this.arrayMonacos = new Array<any>();
+        console.log(monaco.languages.getLanguages());
     }
 
     public divToMonaco(monacoDiv: HTMLElement, cellObj: CelluleDTO, index: number) {
@@ -19,13 +21,12 @@ export default class MonacoManager {
         else {
             cellLanguage = type;
         }
-       var newWindow=monaco.editor.create(monacoDiv, {
-            value: [
-                source
-            ].join('\n'),
+       var newWindow:monaco.editor.IStandaloneCodeEditor=monaco.editor.create(monacoDiv, {
+            model:monaco.editor.createModel(source,cellLanguage),
             language: cellLanguage,
             theme: "vs-dark",
             autoIndent: true,
+            contextmenu:true,
             cursorStyle: "line",
             dragAndDrop: true,
             fontFamily: "URW Chancery L",
@@ -37,15 +38,16 @@ export default class MonacoManager {
             scrollBeyondLastLine: false,
             smoothScrolling: true,
             glyphMargin:true,
-            tabCompletion: true
+            //tabCompletion: true
         });
+        console.log(monacoclient.getLanguages());
+        //monacoclient.MonacoServices.install(newWindow);
         newWindow.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S,function(){
             alert("Fichier sauvegardé");
-        });
-
-
-
+        },"");
         this.arrayMonacos.splice(index,0,newWindow);
+
+        
     }
 
     public getSource(index:number): Array<string>
@@ -79,5 +81,3 @@ export default class MonacoManager {
         return source;
     }
 }
-console.log(monaco.languages.getEncodedLanguageId("python"));
-console.log(monaco.languages.getLanguages());
